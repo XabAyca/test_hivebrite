@@ -29,4 +29,10 @@ RSpec.describe Event, type: :model do
       expect(subject).to_not be_valid
     end
   end
+
+  describe "Relations" do
+    it "should have many custom_attributes_events" do
+      expect(described_class.reflect_on_association(:custom_attributes).macro).to eq :has_many
+    end
+  end
 end
