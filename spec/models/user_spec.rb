@@ -64,7 +64,7 @@ RSpec.describe User, type: :model do
       )
     }
 
-    it "should have many custom_attributes_events" do
+    it "should have many custom_attributes_users" do
       expect(described_class.reflect_on_association(:custom_attributes).macro).to eq :has_many
     end
 
@@ -74,6 +74,23 @@ RSpec.describe User, type: :model do
       registration.save
       expect(described_class.reflect_on_association(:registrations).macro).to eq :has_many
       expect(subject.registrations.count).to eq(1)
+    end
+
+    it "should create custom_attributes_users with nested attributes" do
+      attrs = {
+        first_name: "Sarah",
+        last_name: "Connor",
+        email: "sarah.connor@cant_die.com",
+        password: "password",
+        custom_attributes_attributes: [
+          {
+            name: "Test"
+          }
+        ]
+      }
+      subject.assign_attributes(attrs)
+      subject.save
+      expect(CustomAttributes::User.where(targetable: subject).count).to eq(1)
     end
   end
 end

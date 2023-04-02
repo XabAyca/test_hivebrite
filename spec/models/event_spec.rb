@@ -14,7 +14,7 @@ RSpec.describe Event, type: :model do
     described_class.new(
       name: "Super New Event",
       start_date: 10.days.from_now,
-      end_date: 12.days.from_now,
+      end_date: 12.days.from_now
     )
   }
 
@@ -67,6 +67,22 @@ RSpec.describe Event, type: :model do
       registration.save
       expect(described_class.reflect_on_association(:registrations).macro).to eq :has_many
       expect(subject.registrations.count).to eq(1)
+    end
+
+    it "should create custom_attributes_events with nested attributes" do
+      attrs = {
+        name: "Super New Event",
+        start_date: 10.days.from_now,
+        end_date: 12.days.from_now,
+        custom_attributes_attributes: [
+          {
+            name: "Test"
+          }
+        ]
+      }
+      subject.assign_attributes(attrs)
+      subject.save
+      expect(CustomAttributes::Event.where(targetable: subject).count).to eq(1)
     end
   end
 end

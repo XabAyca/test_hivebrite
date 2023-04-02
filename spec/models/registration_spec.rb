@@ -78,5 +78,21 @@ RSpec.describe Registration, type: :model do
       expect(described_class.reflect_on_association(:event).macro).to eq(:belongs_to)
       expect(subject.event).to be(event)
     end
+
+    it "should create custom_attributes_registrations with nested attributes" do
+      attrs = {
+        number: 1,
+        user: user,
+        event: event,
+        custom_attributes_attributes: [
+          {
+            name: "Test"
+          }
+        ]
+      }
+      subject.assign_attributes(attrs)
+      subject.save
+      expect(CustomAttributes::Registration.where(targetable: subject).count).to eq(1)
+    end
   end
 end
