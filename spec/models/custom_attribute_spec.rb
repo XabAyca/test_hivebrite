@@ -43,6 +43,11 @@ RSpec.describe CustomAttribute, type: :model do
       expect(subject).to_not be_valid
     end
 
+    it "is not valid without targetable" do
+      subject.targetable = nil
+      expect(subject).to_not be_valid
+    end
+
     it "is not valid on create with required_create true and without value" do
       subject.required_create = true
       subject.value = nil

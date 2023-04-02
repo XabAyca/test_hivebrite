@@ -2,8 +2,13 @@ class CustomAttribute < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :value, presence: true, on: :create, if: :required_create
   validates :value, presence: true, on: :update,  if: :required_update
+  validates :targetable, presence: true, if: :need_targetable?
 
-  belongs_to :targetable, polymorphic: true
+  belongs_to :targetable, polymorphic: true, optional: true
+
+  def need_targetable?
+    true
+  end
 
   def value
     case self[:value]
