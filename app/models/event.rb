@@ -4,4 +4,5 @@ class Event < ApplicationRecord
   validates :name, presence: true
 
   has_many :custom_attributes, as: :targetable, dependent: :destroy, class_name: "::CustomAttributes::Event"
+  has_many :registrations
 end
