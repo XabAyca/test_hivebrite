@@ -1,14 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-    subject {
-      described_class.new(
-        first_name: "Sarah",
-        last_name: "Connor",
-        email: "sarah.connor@cant_die.com",
-        password: "password"
-      )
-    }
+  let(:event) {
+    Event.create(
+      name: "My event",
+      start_date: 10.days.from_now,
+      end_date: 12.days.from_now,
+    )
+  }
+
+  subject {
+    described_class.new(
+      first_name: "Sarah",
+      last_name: "Connor",
+      email: "sarah.connor@cant_die.com",
+      password: "password"
+    )
+  }
 
   describe "Validations" do
     it "is valid with valid attributes" do
@@ -43,8 +51,29 @@ RSpec.describe User, type: :model do
   end
 
   describe "Relations" do
+    let(:custom_attributes_users) {
+      CustomAttributes::User.new(
+        name: "Attributes",
+      )
+    }
+
+    let(:registration) {
+      Registration.new(
+        number: 2,
+        event: event
+      )
+    }
+
     it "should have many custom_attributes_events" do
       expect(described_class.reflect_on_association(:custom_attributes).macro).to eq :has_many
+    end
+
+    it "should have many registrations" do
+      subject.save
+      registration.user = subject
+      registration.save
+      expect(described_class.reflect_on_association(:registrations).macro).to eq :has_many
+      expect(subject.registrations.count).to eq(1)
     end
   end
 end
