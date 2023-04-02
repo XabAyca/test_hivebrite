@@ -1,4 +1,4 @@
 module CustomAttributes
-  class Event < ::CustomAttribute
+  class Event < CustomAttribute
   end
 end

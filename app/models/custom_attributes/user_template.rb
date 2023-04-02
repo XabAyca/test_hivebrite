@@ -1,5 +1,5 @@
 module CustomAttributes
-  class UserTemplate < ::CustomAttribute
+  class UserTemplate < CustomAttribute
     def need_targetable?
       false
     end

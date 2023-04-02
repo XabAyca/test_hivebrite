@@ -3,7 +3,7 @@ class Registration < ApplicationRecord
 
   belongs_to :user
   belongs_to :event
-  has_many :custom_attributes, as: :targetable, dependent: :destroy, class_name: "::CustomAttributes::Registration"
+  has_many :custom_attributes, as: :targetable, dependent: :destroy, class_name: "CustomAttributes::Registration"
 
   accepts_nested_attributes_for :custom_attributes
 end
