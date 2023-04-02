@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CustomAttributes::UserTemplate, type: :model do
+RSpec.describe CustomAttributes::Registration, type: :model do
   let(:user) {
     User.create(
       first_name: "John",
@@ -20,9 +20,16 @@ RSpec.describe CustomAttributes::UserTemplate, type: :model do
     )
   }
 
-  describe "Relations" do
-    it "is valid without targetable" do
-      subject.targetable = nil
+  describe "Validations" do
+    it "is not valid on create with required_create true and without value" do
+      subject.required_create = true
+      subject.value = nil
+      expect(subject).to_not be_valid
+    end
+
+    it "is valid on update with required_create true and without value" do
+      subject.save
+      subject.required_update = true
       expect(subject).to be_valid
     end
   end

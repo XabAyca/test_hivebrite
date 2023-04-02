@@ -48,28 +48,16 @@ RSpec.describe CustomAttribute, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it "is not valid on create with required_create true and without value" do
+    it "is valid without value and required_create at true" do
+      subject.value = nil
       subject.required_create = true
-      subject.value = nil
-      expect(subject).to_not be_valid
-    end
-
-    it "is not valid on update with required_update true and without value" do
-      subject.save
-      subject.required_update = true
-      subject.value = nil
-      expect(subject).to_not be_valid
-    end
-
-    it "is valid on update with required_create true and without value" do
-      subject.save
-      subject.required_update = true
       expect(subject).to be_valid
     end
 
-    it "is valid on create with required_update true and without value" do
-      subject.required_update = true
+    it "is valid without value and required_update at true" do
+      subject.save
       subject.value = nil
+      subject.required_update = true
       expect(subject).to be_valid
     end
 
