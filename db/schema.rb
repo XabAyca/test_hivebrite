@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_29_202823) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_02_083631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "custom_attributes", force: :cascade do |t|
+    t.string "targetable_type"
+    t.bigint "targetable_id"
+    t.string "name"
+    t.boolean "required_create", default: false
+    t.boolean "required_update", default: false
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["targetable_type", "targetable_id"], name: "index_custom_attributes_on_targetable"
+  end
 
   create_table "events", force: :cascade do |t|
     t.string "name"
